@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.myapplication.databinding.FragmentStatisticsBinding;
-import com.example.myapplication.myapplication.ui.statistics.StatisticsViewModel;
 
 public class StatisticsFragment extends Fragment {
 

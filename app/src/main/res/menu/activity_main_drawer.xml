@@ -24,5 +24,9 @@
             android:id="@+id/nav_statistics"
             android:icon="@drawable/ic_statistics"
             android:title="@string/menu_statistics" />
+        <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_tutorial"
+            android:title="@string/menu_tutorial" />
     </group>
 </menu>

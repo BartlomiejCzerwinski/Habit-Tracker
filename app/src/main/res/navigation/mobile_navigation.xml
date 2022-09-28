@@ -34,4 +34,10 @@
         android:name="com.example.myapplication.myapplication.ui.statistics.StatisticsFragment"
         android:label="@string/menu_statistics"
         tools:layout="@layout/fragment_statistics" />
+
+    <fragment
+        android:id="@+id/nav_tutorial"
+        android:name="com.example.myapplication.myapplication.ui.tutorial.TutorialFragment"
+        android:label="@string/menu_tutorial"
+        tools:layout="@layout/fragment_tutorial" />
 </navigation>
