@@ -28,4 +28,10 @@
         android:name="com.example.myapplication.myapplication.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_statistics"
+        android:name="com.example.myapplication.myapplication.ui.statistics.StatisticsFragment"
+        android:label="@string/menu_statistics"
+        tools:layout="@layout/fragment_statistics" />
 </navigation>
