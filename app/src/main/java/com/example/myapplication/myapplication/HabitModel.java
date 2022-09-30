@@ -23,4 +23,16 @@ public class HabitModel {
                 ", isDone=" + isDone +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
 }

@@ -2,11 +2,9 @@ package com.example.myapplication.myapplication;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         addHabit = (Button) newHabbitPopupView.findViewById(R.id.add_habit_button);
         cencel = (Button) newHabbitPopupView.findViewById(R.id.cencel_button);
-
         dialogBuilder.setView(newHabbitPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -83,7 +80,16 @@ public class MainActivity extends AppCompatActivity {
         addHabit.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
-                //onClickActions
+                HabitModel habitModel = null;
+                try{
+                    habitModel = new HabitModel(habitName.getText().toString());
+                }
+                catch (Exception e){
+                    habitModel = new HabitModel("aaaaaaaaaaaaaaaaaa");
+                }
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+                boolean success = dataBaseHelper.addOne(habitModel);
+
             }
         });
 
