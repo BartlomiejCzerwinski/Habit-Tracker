@@ -34,10 +34,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(HabitModel habitModel){
+    public boolean addOne(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(HABIT_NAME, habitModel.getName());
+        cv.put(HABIT_NAME, habitName);
 
         long insert = db.insert(HABITS_NAMES_TABLE,null,cv);
 
@@ -49,10 +49,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<HabitModel> getEveryone(){
-        List<HabitModel> returnList = new ArrayList<>();
+    public List<String> getEveryone(){
+        List<String> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM "+HABITS_NAMES_TABLE;
+        String queryString = "SELECT HABIT_NAME FROM "+HABITS_NAMES_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString,null);
 
@@ -60,9 +60,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             do{
                 String habitName = cursor.getString(0);
-
-                HabitModel habitModel = new HabitModel(habitName);
-                returnList.add(habitModel);
+                returnList.add(habitName);
             }while(cursor.moveToNext());
         }
         else{

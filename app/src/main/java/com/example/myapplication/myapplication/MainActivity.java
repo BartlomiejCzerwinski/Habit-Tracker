@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        List<HabitModel> everyone = dataBaseHelper.getEveryone();
-                ArrayAdapter habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
+        List<String> everyone = dataBaseHelper.getEveryone();
+                ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
                 habitsListView = findViewById(R.id.habits_list_view);
                 habitsListView.setAdapter(habitsArrayAdapter);
+
     }
 
 
@@ -96,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
         addHabit.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
-                HabitModel habitModel = null;
+                String newHabitName = null;
                 try{
-                    habitModel = new HabitModel(habitName.getText().toString());
+                    newHabitName = habitName.getText().toString();
                 }
                 catch (Exception e){
-                    habitModel = new HabitModel("aaaaaaaaaaaaaaaaaa");
+
                 }
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                boolean success = dataBaseHelper.addOne(habitModel);
+                boolean success = dataBaseHelper.addOne(newHabitName);
 
             }
         });
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //onClickActions
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                List<HabitModel> everyone = dataBaseHelper.getEveryone();
+                List<String> everyone = dataBaseHelper.getEveryone();
 
                 //habitsListView = habitsListView.findViewById(R.id.habits_list_view);
                // ArrayAdapter habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
