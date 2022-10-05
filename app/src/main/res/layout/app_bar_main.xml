@@ -31,4 +31,10 @@
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <ListView
+        android:id="@+id/habits_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="582dp"
+        android:layout_gravity="bottom|end" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

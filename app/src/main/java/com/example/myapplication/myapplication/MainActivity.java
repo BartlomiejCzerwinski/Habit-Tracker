@@ -2,9 +2,15 @@ package com.example.myapplication.myapplication;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.myapplication.ui.home.HomeFragment;
+import com.example.myapplication.myapplication.ui.home.HomeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.myapplication.databinding.ActivityMainBinding;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -26,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText habitName;
+    private TextView popupList;
     private Button addHabit, cencel;
+    private ListView habitsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -40,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createNewHabbit();
-
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -55,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+        List<HabitModel> everyone = dataBaseHelper.getEveryone();
+                ArrayAdapter habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
+                habitsListView = findViewById(R.id.habits_list_view);
+                habitsListView.setAdapter(habitsArrayAdapter);
     }
 
 
@@ -66,17 +80,19 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+
+
     public void createNewHabbit(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View newHabbitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
         habitName = (EditText) newHabbitPopupView.findViewById(R.id.newhabitpopup_habit_name);
 
-        addHabit = (Button) newHabbitPopupView.findViewById(R.id.add_habit_button);
-        cencel = (Button) newHabbitPopupView.findViewById(R.id.cencel_button);
+        addHabit = (Button) newHabbitPopupView.findViewById(R.id.add_habit_button);// a.d. 1
+        cencel = (Button) newHabbitPopupView.findViewById(R.id.cencel_button);     // no coś takiego to by było
         dialogBuilder.setView(newHabbitPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-
+        popupList = findViewById(R.id.popuplist);
         addHabit.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
@@ -97,8 +113,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //onClickActions
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+                List<HabitModel> everyone = dataBaseHelper.getEveryone();
+
+                //habitsListView = habitsListView.findViewById(R.id.habits_list_view);
+               // ArrayAdapter habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
+                //System.out.println(everyone);
+                //habitsListView.setAdapter(habitsArrayAdapter);
+                //stworzyć dobry obiekt w popup window do wyświetlenia tej bazy danych
+                // potem tak go wywołać jak tam wyżej w a.d. 1
+                //Toast.makeText(MainActivity.this, everyone.toString(), Toast.LENGTH_SHORT);
             }
         });
 
     }
+
 }

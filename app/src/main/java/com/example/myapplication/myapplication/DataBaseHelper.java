@@ -2,12 +2,16 @@ package com.example.myapplication.myapplication;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.example.myapplication.myapplication.HabitModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -43,5 +47,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         else{
             return true;
         }
+    }
+
+    public List<HabitModel> getEveryone(){
+        List<HabitModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM "+HABITS_NAMES_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        if(cursor.moveToFirst()){
+
+            do{
+                String habitName = cursor.getString(0);
+
+                HabitModel habitModel = new HabitModel(habitName);
+                returnList.add(habitModel);
+            }while(cursor.moveToNext());
+        }
+        else{
+
+        }
+        cursor.close();
+        db.close();
+        return returnList;
     }
 }
