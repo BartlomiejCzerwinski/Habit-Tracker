@@ -26,6 +26,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE)";
         db.execSQL(createTableStatement);
+        List<String> HABITS_LIST = getEveryone();
+        for(String habit_name : HABITS_LIST)
+        {
+            String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
+            db.execSQL(createHabitTable);
+        }
 
     }
 
