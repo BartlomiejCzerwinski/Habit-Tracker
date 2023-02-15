@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadHabitsList() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-
+        System.out.println("pop");
         List<String> everyone = dataBaseHelper.getEveryone();
 
         ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);

@@ -28,17 +28,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE)";
         db.execSQL(createTableStatement);
+    }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        System.out.println("testtt");
+        createHabitsTables(db);
     }
 
     public void createHabitsTables(SQLiteDatabase db){
-        List<String> HABITS_LIST = getEveryone();
+        List<String> HABITS_LIST = this.getEveryone();
         for(String habit_name : HABITS_LIST)
         {
             String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
             db.execSQL(createHabitTable);
             initialHabits(habit_name);
-            System.out.println("aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbcccccccccccccc");
         }
     }
 
@@ -54,10 +58,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-    }
 
     public boolean addOne(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
