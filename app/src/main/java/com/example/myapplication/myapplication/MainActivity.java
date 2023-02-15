@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,27 +50,34 @@ public class MainActivity extends AppCompatActivity {
                 createNewHabbit();
             }
         });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_settings,
                 R.id.nav_statistics, R.id.nav_tutorial)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        List<String> everyone = dataBaseHelper.getEveryone();
-                ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
-                habitsListView = findViewById(R.id.habits_list_view);
-                habitsListView.setAdapter(habitsArrayAdapter);
+
+        loadHabitsList();
 
     }
 
+    public void loadHabitsList() {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+
+        List<String> everyone = dataBaseHelper.getEveryone();
+
+        ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
+        habitsListView = findViewById(R.id.habits_list_view);
+        habitsListView.setAdapter(habitsArrayAdapter);
+    }
 
 
     @Override
@@ -85,15 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void createNewHabbit(){
         dialogBuilder = new AlertDialog.Builder(this);
-        final View newHabbitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        habitName = (EditText) newHabbitPopupView.findViewById(R.id.newhabitpopup_habit_name);
+        final View newHabitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
+        habitName = (EditText) newHabitPopupView.findViewById(R.id.newhabitpopup_habit_name);
 
-        addHabit = (Button) newHabbitPopupView.findViewById(R.id.add_habit_button);// a.d. 1
-        cencel = (Button) newHabbitPopupView.findViewById(R.id.cencel_button);     // no coś takiego to by było
-        dialogBuilder.setView(newHabbitPopupView);
+        addHabit = (Button) newHabitPopupView.findViewById(R.id.add_habit_button);// a.d. 1
+        cencel = (Button) newHabitPopupView.findViewById(R.id.cencel_button);     // no coś takiego to by było
+        dialogBuilder.setView(newHabitPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
         popupList = findViewById(R.id.popuplist);
+        addHabit.setText("Add habit");
         addHabit.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
@@ -106,24 +113,18 @@ public class MainActivity extends AppCompatActivity {
                 }
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
                 boolean success = dataBaseHelper.addOne(newHabitName);
-
+                dialog.cancel();
+                loadHabitsList();
             }
         });
 
+        cencel.setText("Cencel");
         cencel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //onClickActions
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                List<String> everyone = dataBaseHelper.getEveryone();
-
-                //habitsListView = habitsListView.findViewById(R.id.habits_list_view);
-               // ArrayAdapter habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
-                //System.out.println(everyone);
-                //habitsListView.setAdapter(habitsArrayAdapter);
-                //stworzyć dobry obiekt w popup window do wyświetlenia tej bazy danych
-                // potem tak go wywołać jak tam wyżej w a.d. 1
-                //Toast.makeText(MainActivity.this, everyone.toString(), Toast.LENGTH_SHORT);
+                dialog.cancel();
+                loadHabitsList();
             }
         });
 

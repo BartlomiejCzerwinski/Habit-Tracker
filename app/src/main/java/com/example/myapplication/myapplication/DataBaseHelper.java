@@ -10,7 +10,9 @@ import androidx.annotation.Nullable;
 
 import com.example.myapplication.myapplication.HabitModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -26,12 +28,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE)";
         db.execSQL(createTableStatement);
+
+    }
+
+    public void createHabitsTables(SQLiteDatabase db){
         List<String> HABITS_LIST = getEveryone();
         for(String habit_name : HABITS_LIST)
         {
             String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
             db.execSQL(createHabitTable);
+            initialHabits(habit_name);
+            System.out.println("aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbcccccccccccccc");
         }
+    }
+
+    public void initialHabits(String habitName)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        int intdate = Integer.parseInt(formatter.format(date));
+        cv.put("id", intdate);
+        db.insert(habitName, null, cv);
 
     }
 
