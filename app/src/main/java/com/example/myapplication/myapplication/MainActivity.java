@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+        dataBaseHelper.createHabitsTables();
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadHabitsList() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
         System.out.println("pop");
-        List<String> everyone = dataBaseHelper.getEveryone();
+        List<String> everyone = dataBaseHelper.getHabitsNamesListFromHabitsNamesTable();
 
         ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
         habitsListView = findViewById(R.id.habits_list_view);
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                boolean success = dataBaseHelper.addOne(newHabitName);
+                boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
                 dialog.cancel();
                 loadHabitsList();
             }

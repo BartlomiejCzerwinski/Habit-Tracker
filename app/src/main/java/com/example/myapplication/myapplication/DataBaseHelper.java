@@ -32,34 +32,32 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        System.out.println("testtt");
-        createHabitsTables(db);
+
     }
 
-    public void createHabitsTables(SQLiteDatabase db){
-        List<String> HABITS_LIST = this.getEveryone();
+
+    public void createHabitsTables(){
+        List<String> HABITS_LIST = this.getHabitsNamesListFromHabitsNamesTable();
         for(String habit_name : HABITS_LIST)
         {
-            String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
-            db.execSQL(createHabitTable);
-            initialHabits(habit_name);
+            SQLiteDatabase db = this.getWritableDatabase();
+            if(!doesTableExist(db, habit_name)) {
+                String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
+                db.execSQL(createHabitTable);
+            }
         }
     }
 
-    public void initialHabits(String habitName)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
-        int intdate = Integer.parseInt(formatter.format(date));
-        cv.put("id", intdate);
-        db.insert(habitName, null, cv);
-
+    public boolean doesTableExist(SQLiteDatabase db, String tableName) {
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", new String[] {tableName});
+        boolean exists = (cursor != null) && (cursor.getCount() > 0);
+        if (cursor != null) {
+            cursor.close();
+        }
+        return exists;
     }
 
-
-    public boolean addOne(String habitName){
+    public boolean addHabitToHabitsNamesTable(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(HABIT_NAME, habitName);
@@ -74,7 +72,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<String> getEveryone(){
+    public List<String> getHabitsNamesListFromHabitsNamesTable(){
         List<String> returnList = new ArrayList<>();
 
         String queryString = "SELECT HABIT_NAME FROM "+HABITS_NAMES_TABLE;
