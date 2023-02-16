@@ -1,13 +1,16 @@
 package com.example.myapplication.myapplication;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.myapplication.ui.home.HomeViewModel;
@@ -23,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.myapplication.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,10 +77,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadHabitsList() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        System.out.println("pop");
-        List<String> everyone = dataBaseHelper.getHabitsNamesListFromHabitsNamesTable();
+        List<String> habits = dataBaseHelper.getHabitsNamesListFromHabitsNamesTable();
+        List<HabitModel> habitList = new ArrayList<>();
 
-        ArrayAdapter habitsArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, everyone);
+        for (String habitName : habits) {
+            HabitModel habit = new HabitModel(habitName);
+            System.out.println(habit.toString());
+            habitList.add(habit);
+        }
+
+        ArrayAdapter<HabitModel> habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, R.layout.habit_layout, habitList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = convertView;
+
+                if (view == null) {
+                    LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE);
+                    view = inflater.inflate(R.layout.habit_layout, parent, false);
+                }
+
+                CheckBox checkBox = view.findViewById(R.id.habit_item_checkbox);
+                checkBox.setChecked(habitList.get(position).isSelected());
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        habitList.get(position).setSelected(isChecked);
+                        // update the database with the selected state of the habit
+                    }
+                });
+
+                TextView textView = view.findViewById(R.id.habit_item_name);
+                textView.setText(habitList.get(position).getName());
+
+                return view;
+            }
+        };
+
         habitsListView = findViewById(R.id.habits_list_view);
         habitsListView.setAdapter(habitsArrayAdapter);
     }
@@ -87,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+
     }
 
 

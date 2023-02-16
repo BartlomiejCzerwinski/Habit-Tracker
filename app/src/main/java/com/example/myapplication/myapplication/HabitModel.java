@@ -35,4 +35,15 @@ public class HabitModel {
     public boolean isDone() {
         return isDone;
     }
+
+    public boolean isSelected() {
+        if (isDone)
+            return true;
+        else
+            return false;
+    }
+
+    public void setSelected(boolean isChecked) {
+        isDone=true;
+    }
 }

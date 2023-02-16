@@ -23,9 +23,11 @@
 
 
     <ListView
+        android:id="@+id/habits_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/habits_list_view"/>
+        android:paddingTop="150dp"></ListView>
+
 
 
 
