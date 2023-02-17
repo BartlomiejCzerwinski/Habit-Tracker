@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        SettingsManager settingsManager = new SettingsManager(binding.getRoot().findViewById(R.id.button_settings));
+        SettingsManager settingsManager = new SettingsManager(binding);
         settingsManager.fct();
         return root;
     }
