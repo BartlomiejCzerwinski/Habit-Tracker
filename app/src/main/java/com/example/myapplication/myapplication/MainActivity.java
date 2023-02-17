@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.myapplication.myapplication.databinding.FragmentSettingsBinding;
 import com.example.myapplication.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.myapplication.ui.home.HomeViewModel;
 import com.example.myapplication.myapplication.ui.settings.SettingsViewModel;
@@ -78,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         loadHabitsList();
+
+        //Setting user name from file
+        NavigationView navigationView1 = findViewById(R.id.nav_view);
+        View headerView = navigationView1.getHeaderView(0);
+        TextView textView = headerView.findViewById(R.id.user_name_text);
+        SettingsManager settingsManager = new SettingsManager(binding);
+        String userName = settingsManager.getUserNameFromFile();
+        textView.setText("Hello, " + userName);
 
     }
 

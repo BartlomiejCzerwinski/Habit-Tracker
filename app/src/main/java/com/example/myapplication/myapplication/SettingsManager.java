@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.myapplication.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.myapplication.databinding.FragmentSettingsBinding;
 
 import java.io.BufferedReader;
@@ -32,13 +33,18 @@ public class SettingsManager {
 
     private String USER_NAME_FILE = "config_username.txt";
     FragmentSettingsBinding binding;
+    private ActivityMainBinding mainBinding;
 
     public SettingsManager(FragmentSettingsBinding binding) {
         this.binding = binding;
-        System.out.println(readFromFile());
+        getNewUserName();
     }
 
-    public void fct() {
+    public SettingsManager(ActivityMainBinding binding) {
+        this.mainBinding = binding;
+    }
+
+    public void getNewUserName() {
         binding.getRoot().findViewById(R.id.button_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,15 +57,15 @@ public class SettingsManager {
                         file.setReadable(true, true);
                         file.setWritable(true, true);
                         file.setExecutable(true, true);
+
                         if (!file.exists()) {
                             file.createNewFile();
                         }
+
                         FileOutputStream fos = new FileOutputStream(file);
                         fos.write(textSettingsValue.getBytes(StandardCharsets.UTF_8));
                         fos.close();
-                        System.out.println("File saved successfully!");
 
-                        System.out.println(readFromFile());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -68,10 +74,10 @@ public class SettingsManager {
         });
     }
 
-    public String readFromFile() {
+    public String getUserNameFromFile() {
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            File file = new File(binding.getRoot().getContext().getFilesDir(), USER_NAME_FILE);
+            File file = new File(mainBinding.getRoot().getContext().getFilesDir(), USER_NAME_FILE);
             FileInputStream fis = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
 
