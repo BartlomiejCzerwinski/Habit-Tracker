@@ -1,5 +1,6 @@
 package com.example.myapplication.myapplication;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,13 @@ import android.widget.TextView;
 
 import com.example.myapplication.myapplication.ui.home.HomeFragment;
 import com.example.myapplication.myapplication.ui.home.HomeViewModel;
+import com.example.myapplication.myapplication.ui.settings.SettingsViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -44,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
         dataBaseHelper.createHabitsTables();
-        super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -70,10 +77,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
         loadHabitsList();
 
     }
+
+
+
+
 
     public void loadHabitsList() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
@@ -87,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ArrayAdapter<HabitModel> habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, R.layout.habit_layout, habitList) {
+
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = convertView;
@@ -123,12 +134,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-
     }
 
 
 
-    public void createNewHabbit(){
+    public void createNewHabbit() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View newHabitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
         habitName = (EditText) newHabitPopupView.findViewById(R.id.newhabitpopup_habit_name);

@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
+import com.example.myapplication.myapplication.R;
+import com.example.myapplication.myapplication.SettingsManager;
 import com.example.myapplication.myapplication.databinding.FragmentSettingsBinding;
 import com.example.myapplication.myapplication.ui.home.HomeViewModel;
 
@@ -30,6 +32,9 @@ public class SettingsFragment extends Fragment {
 
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        SettingsManager settingsManager = new SettingsManager(binding.getRoot().findViewById(R.id.button_settings));
+        settingsManager.fct();
         return root;
     }
 
