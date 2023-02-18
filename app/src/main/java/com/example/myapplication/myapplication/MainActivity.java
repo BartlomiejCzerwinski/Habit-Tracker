@@ -1,39 +1,24 @@
 package com.example.myapplication.myapplication;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.myapplication.myapplication.databinding.FragmentSettingsBinding;
-import com.example.myapplication.myapplication.ui.home.HomeFragment;
-import com.example.myapplication.myapplication.ui.home.HomeViewModel;
-import com.example.myapplication.myapplication.ui.settings.SettingsViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.myapplication.myapplication.databinding.ActivityMainBinding;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //for manager
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
         dataBaseHelper.createHabitsTables();
+        //*************************
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -78,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        loadHabitsList();
-
+        //for manager
+        HomeManager homeManager = new HomeManager(findViewById(R.id.habits_list_view), MainActivity.this, (LayoutInflater) MainActivity.this.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE));
         //Setting user name from file
         NavigationView navigationView1 = findViewById(R.id.nav_view);
         View headerView = navigationView1.getHeaderView(0);
@@ -88,55 +75,8 @@ public class MainActivity extends AppCompatActivity {
         String userName = settingsManager.getUserNameFromFile();
         textView.setText("Hello, " + userName);
 
+        //********************************************************************
     }
-
-
-
-
-
-    public void loadHabitsList() {
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        List<String> habits = dataBaseHelper.getHabitsNamesListFromHabitsNamesTable();
-        List<HabitModel> habitList = new ArrayList<>();
-
-        for (String habitName : habits) {
-            HabitModel habit = new HabitModel(habitName);
-            System.out.println(habit.toString());
-            habitList.add(habit);
-        }
-
-        ArrayAdapter<HabitModel> habitsArrayAdapter = new ArrayAdapter<HabitModel>(MainActivity.this, R.layout.habit_layout, habitList) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-
-                if (view == null) {
-                    LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE);
-                    view = inflater.inflate(R.layout.habit_layout, parent, false);
-                }
-
-                CheckBox checkBox = view.findViewById(R.id.habit_item_checkbox);
-                checkBox.setChecked(habitList.get(position).isSelected());
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        habitList.get(position).setSelected(isChecked);
-                        // update the database with the selected state of the habit
-                    }
-                });
-
-                TextView textView = view.findViewById(R.id.habit_item_name);
-                textView.setText(habitList.get(position).getName());
-
-                return view;
-            }
-        };
-
-        habitsListView = findViewById(R.id.habits_list_view);
-        habitsListView.setAdapter(habitsArrayAdapter);
-    }
-
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -146,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    //for manager
     public void createNewHabbit() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View newHabitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
@@ -172,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
                 boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
                 dialog.cancel();
-                loadHabitsList();
+                //loadHabitsList();
             }
         });
 
@@ -182,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
                 dialog.cancel();
-                loadHabitsList();
+                //loadHabitsList();
             }
         });
 
     }
-
+//**********************************************************
 }
