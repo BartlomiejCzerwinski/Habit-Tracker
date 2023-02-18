@@ -32,7 +32,8 @@ import java.nio.charset.StandardCharsets;
 public class SettingsManager {
 
     private String USER_NAME_FILE = "config_username.txt";
-    FragmentSettingsBinding binding;
+
+    private FragmentSettingsBinding binding;
     private ActivityMainBinding mainBinding;
 
     public SettingsManager(FragmentSettingsBinding binding) {
@@ -45,6 +46,7 @@ public class SettingsManager {
     }
 
     public void getNewUserName() {
+
         binding.getRoot().findViewById(R.id.button_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
