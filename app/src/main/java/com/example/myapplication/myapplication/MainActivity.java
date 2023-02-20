@@ -32,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText habitName;
     private TextView popupList;
     private Button addHabit, cencel;
-    private ListView habitsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //for manager
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
         dataBaseHelper.createHabitsTables();
@@ -61,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //for manager
-        HomeManager homeManager = new HomeManager(findViewById(R.id.habits_list_view), MainActivity.this, (LayoutInflater) MainActivity.this.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE));
         //Setting user name from file
         NavigationView navigationView1 = findViewById(R.id.nav_view);
         View headerView = navigationView1.getHeaderView(0);
