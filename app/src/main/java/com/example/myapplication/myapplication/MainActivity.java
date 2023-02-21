@@ -1,17 +1,11 @@
 package com.example.myapplication.myapplication;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,18 +14,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.myapplication.databinding.ActivityMainBinding;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
-    // popup window
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
-    private EditText habitName;
-    private TextView popupList;
-    private Button addHabit, cencel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         SettingsManager settingsManager = new SettingsManager(binding);
         String userName = settingsManager.getUserNameFromFile();
         textView.setText("Hello, " + userName);
-
         //********************************************************************
     }
 
@@ -77,47 +62,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-    //for manager
-    public void createNewHabbit() {
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View newHabitPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        habitName = (EditText) newHabitPopupView.findViewById(R.id.newhabitpopup_habit_name);
-
-        addHabit = (Button) newHabitPopupView.findViewById(R.id.add_habit_button);// a.d. 1
-        cencel = (Button) newHabitPopupView.findViewById(R.id.cencel_button);     // no coś takiego to by było
-        dialogBuilder.setView(newHabitPopupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-        popupList = findViewById(R.id.popuplist);
-        addHabit.setText("Add habit");
-        addHabit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public  void onClick(View v){
-                String newHabitName = null;
-                try{
-                    newHabitName = habitName.getText().toString();
-                }
-                catch (Exception e){
-
-                }
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
-                dialog.cancel();
-                //loadHabitsList();
-            }
-        });
-
-        cencel.setText("Cencel");
-        cencel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-                dialog.cancel();
-                //loadHabitsList();
-            }
-        });
-
-    }
-//**********************************************************
 }

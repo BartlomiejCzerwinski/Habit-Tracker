@@ -35,6 +35,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void addHabitDailyStatus (String habitName, boolean status) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        int intdate = Integer.parseInt(formatter.format(date));
+        isDataForDayExists(this.getReadableDatabase(), habitName, Integer.toString(intdate));
+        return;
+    }
+
 
     public void createHabitsTables(){
         List<String> HABITS_LIST = this.getHabitsNamesListFromHabitsNamesTable();
@@ -50,6 +58,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public boolean doesTableExist(SQLiteDatabase db, String tableName) {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", new String[] {tableName});
+        boolean exists = (cursor != null) && (cursor.getCount() > 0);
+        if (cursor != null) {
+            cursor.close();
+        }
+        return exists;
+    }
+
+    public boolean isDataForDayExists(SQLiteDatabase db, String habitName, String id) {
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ habitName +" WHERE id=? ", new String[] {id});
         boolean exists = (cursor != null) && (cursor.getCount() > 0);
         if (cursor != null) {
             cursor.close();
