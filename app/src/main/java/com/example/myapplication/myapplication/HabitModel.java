@@ -7,12 +7,22 @@ public class HabitModel {
     private boolean isDone;
 
     public HabitModel(String name) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
-        int intdate = Integer.parseInt(formatter.format(date));
+        int intdate = getIdFromDate();
         this.name = name;
         this.id = intdate;
         this.isDone = false;
+    }
+
+    public HabitModel(String name, int id, boolean isDone) {
+        this.name = name;
+        this.id = id;
+        this.isDone = isDone;
+    }
+
+    public int getIdFromDate() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        return Integer.parseInt(formatter.format(date));
     }
 
     @Override
