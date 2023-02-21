@@ -99,7 +99,7 @@ public class HomeManager {
         List<String> habits = dataBaseHelper.getHabitsNamesListFromHabitsNamesTable();
         List<HabitModel> habitList = new ArrayList<>();
         for (String habitName : habits) {
-            HabitModel habit = new HabitModel(habitName);
+            HabitModel habit = new HabitModel(habitName, dataBaseHelper.getIdFromDate(), dataBaseHelper.getHabitDailyStatus(habitName));
             dataBaseHelper.addHabitDailyStatus(habit.getName(), true);
             System.out.println(habit.toString());
             habitList.add(habit);
@@ -121,7 +121,15 @@ public class HomeManager {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         habitList.get(position).setSelected(isChecked);
-                        // update the database with the selected state of the habit
+                        String habitName = habitList.get(position).getName();
+                        if (isChecked) {
+                            System.out.println("Habit checked: " + habitList.get(position).getName());
+                            dataBaseHelper.addHabitDailyStatus(habitName, true);
+                        }
+                        else {
+                            System.out.println("Habit unchecked: " + habitList.get(position).getName());
+                            dataBaseHelper.addHabitDailyStatus(habitName, false);
+                        }
                     }
                 });
 

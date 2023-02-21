@@ -1,5 +1,6 @@
 package com.example.myapplication.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -37,7 +38,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void addHabitDailyStatus (String habitName, boolean status) {
         if(!isDataForDayExists(this.getReadableDatabase(), habitName, Integer.toString(getIdFromDate()))) {
-            System.out.println("nie ma!!!");
             SQLiteDatabase db = this.getWritableDatabase();
             String addHabitLine = "INSERT INTO " + habitName + " (id, isDone) VALUES (" + getIdFromDate() + ", "+ status + ");";
             db.execSQL(addHabitLine);
@@ -47,9 +47,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             String addHabitLine = "UPDATE " + habitName + " SET isDone = " + status + " WHERE id = " + getIdFromDate() + ";" ;
             db.execSQL(addHabitLine);
-            System.out.println("jest!!!");
         }
         return;
+    }
+
+    @SuppressLint("Range")
+    public boolean getHabitDailyStatus (String habitName) {
+        if(isDataForDayExists(this.getReadableDatabase(), habitName, Integer.toString(getIdFromDate()))) {
+            boolean result = false;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT isDone FROM " + habitName + " WHERE id = ?", new String[]{String.valueOf(getIdFromDate())});
+            if (cursor.moveToFirst()) {
+                int tmp = Integer.parseInt(cursor.getString(cursor.getColumnIndex("isDone")));
+                result = (tmp != 0);
+            }
+            cursor.close();
+            db.close();
+            return result;
+        }
+        return false;
     }
 
     public int getIdFromDate() {
