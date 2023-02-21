@@ -36,11 +36,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void addHabitDailyStatus (String habitName, boolean status) {
+        if(!isDataForDayExists(this.getReadableDatabase(), habitName, Integer.toString(getIdFromDate()))) {
+            System.out.println("nie ma!!!");
+            SQLiteDatabase db = this.getWritableDatabase();
+            String addHabitLine = "INSERT INTO " + habitName + " (id, isDone) VALUES (" + getIdFromDate() + ", "+ status + ");";
+            db.execSQL(addHabitLine);
+        }
+        else
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String addHabitLine = "UPDATE " + habitName + " SET isDone = " + status + " WHERE id = " + getIdFromDate() + ";" ;
+            db.execSQL(addHabitLine);
+            System.out.println("jest!!!");
+        }
+        return;
+    }
+
+    public int getIdFromDate() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
-        int intdate = Integer.parseInt(formatter.format(date));
-        isDataForDayExists(this.getReadableDatabase(), habitName, Integer.toString(intdate));
-        return;
+        return Integer.parseInt(formatter.format(date));
     }
 
 
