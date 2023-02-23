@@ -27,7 +27,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE)";
+        Date date = new Date();
+        String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE, Start_date DATE)";
         db.execSQL(createTableStatement);
     }
 
@@ -105,10 +106,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
+    public String getTodayDateForDatabase() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formatedDate = sdf.format(date);
+        return formatedDate;
+    }
+
     public boolean addHabitToHabitsNamesTable(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(HABIT_NAME, habitName);
+        cv.put("Start_date", getTodayDateForDatabase());
 
         long insert = db.insert(HABITS_NAMES_TABLE,null,cv);
 

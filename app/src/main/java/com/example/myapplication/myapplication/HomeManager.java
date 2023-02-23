@@ -76,6 +76,7 @@ public class HomeManager {
                         }
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
                         boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
+                        dataBaseHelper.createHabitsTables();
                         dialog.cancel();
                         //loadHabitsList();
                     }
@@ -100,7 +101,6 @@ public class HomeManager {
         List<HabitModel> habitList = new ArrayList<>();
         for (String habitName : habits) {
             HabitModel habit = new HabitModel(habitName, dataBaseHelper.getIdFromDate(), dataBaseHelper.getHabitDailyStatus(habitName));
-            dataBaseHelper.addHabitDailyStatus(habit.getName(), true);
             System.out.println(habit.toString());
             habitList.add(habit);
         }
