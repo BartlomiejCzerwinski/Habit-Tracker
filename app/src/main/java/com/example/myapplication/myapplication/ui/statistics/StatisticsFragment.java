@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.myapplication.myapplication.R;
+import com.example.myapplication.myapplication.StatisticsManager;
 import com.example.myapplication.myapplication.databinding.FragmentStatisticsBinding;
 
 public class StatisticsFragment extends Fragment {
@@ -27,6 +29,7 @@ public class StatisticsFragment extends Fragment {
 
         final TextView textView = binding.textStatistics;
         statisticsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        StatisticsManager statisticsManager = new StatisticsManager(root.getRootView().findViewById(R.id.calendarView3));
         return root;
     }
 
