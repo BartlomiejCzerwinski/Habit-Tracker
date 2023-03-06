@@ -38,11 +38,17 @@ public class SettingsManager {
 
     public SettingsManager(FragmentSettingsBinding binding) {
         this.binding = binding;
+        setActualUserNameInEditTextField();
         getNewUserName();
     }
 
     public SettingsManager(ActivityMainBinding binding) {
         this.mainBinding = binding;
+    }
+
+    public void setActualUserNameInEditTextField() {
+        EditText editText = binding.getRoot().findViewById(R.id.editTextTextPersonName);
+        editText.setText(getUserNameFromFile());
     }
 
     public void getNewUserName() {
@@ -78,8 +84,15 @@ public class SettingsManager {
 
     public String getUserNameFromFile() {
         StringBuilder stringBuilder = new StringBuilder();
+        File file = null;
         try {
-            File file = new File(mainBinding.getRoot().getContext().getFilesDir(), USER_NAME_FILE);
+            if(mainBinding != null) {
+                file = new File(mainBinding.getRoot().getContext().getFilesDir(), USER_NAME_FILE);
+            }
+            else
+            {
+                file = new File(binding.getRoot().getContext().getFilesDir(), USER_NAME_FILE);
+            }
             FileInputStream fis = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
 

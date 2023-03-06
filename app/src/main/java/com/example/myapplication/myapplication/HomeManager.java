@@ -78,7 +78,7 @@ public class HomeManager {
                         boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
                         dataBaseHelper.createHabitsTables();
                         dialog.cancel();
-                        //loadHabitsList();
+                        loadHabitsList();
                     }
                 });
 
