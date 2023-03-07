@@ -30,11 +30,10 @@ public class SettingsFragment extends Fragment {
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        SettingsManager settingsManager = new SettingsManager(binding);
+        SettingsManager settingsManager = new SettingsManager(binding, getActivity().findViewById(R.id.user_name_text));
 
         return root;
     }

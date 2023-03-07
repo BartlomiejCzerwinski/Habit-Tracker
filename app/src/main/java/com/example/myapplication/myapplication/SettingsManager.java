@@ -35,9 +35,11 @@ public class SettingsManager {
 
     private FragmentSettingsBinding binding;
     private ActivityMainBinding mainBinding;
+    private TextView textViewForUsername;
 
-    public SettingsManager(FragmentSettingsBinding binding) {
+    public SettingsManager(FragmentSettingsBinding binding, TextView textView) {
         this.binding = binding;
+        this.textViewForUsername = textView;
         setActualUserNameInEditTextField();
         getNewUserName();
     }
@@ -49,6 +51,10 @@ public class SettingsManager {
     public void setActualUserNameInEditTextField() {
         EditText editText = binding.getRoot().findViewById(R.id.editTextTextPersonName);
         editText.setText(getUserNameFromFile());
+    }
+
+    public void setActualUserNameInNavigation(String name) {
+        textViewForUsername.setText(name);
     }
 
     public void getNewUserName() {
@@ -77,6 +83,7 @@ public class SettingsManager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    setActualUserNameInNavigation(textSettingsValue);
                 }
             }
         });
