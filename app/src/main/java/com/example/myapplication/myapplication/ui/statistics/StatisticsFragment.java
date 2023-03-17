@@ -27,9 +27,9 @@ public class StatisticsFragment extends Fragment {
         binding = FragmentStatisticsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textStatistics;
-        statisticsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        StatisticsManager statisticsManager = new StatisticsManager(root.getRootView().findViewById(R.id.calendarView3));
+
+        StatisticsManager statisticsManager = new StatisticsManager(root.getRootView().findViewById(R.id.calendarView3), getContext(), binding);
+
         return root;
     }
 
