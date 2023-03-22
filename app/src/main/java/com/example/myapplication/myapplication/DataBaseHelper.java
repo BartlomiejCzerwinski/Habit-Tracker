@@ -69,6 +69,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    @SuppressLint("Range")
+    public String getHabitStartDate (String habitName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Start_date FROM " +HABITS_NAMES_TABLE + " WHERE HABIT_NAME = ?", new String[]{habitName});
+        cursor.moveToFirst();
+        return cursor.getString(0);
+    }
+
     public int getIdFromDate() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
@@ -95,6 +103,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return exists;
+    }
+
+    public int countDoneDays(String habitName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if(doesTableExist(db, habitName)) {
+            String query = "SELECT COUNT(*) FROM " + habitName + "WHERE isDone = 1";
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1", null);
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+        return 0;
     }
 
     public boolean isDataForDayExists(SQLiteDatabase db, String habitName, String id) {
