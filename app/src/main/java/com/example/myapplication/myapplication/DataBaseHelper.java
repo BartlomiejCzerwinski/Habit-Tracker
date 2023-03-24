@@ -79,7 +79,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int getIdFromDate() {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return Integer.parseInt(formatter.format(date));
     }
 
@@ -110,6 +110,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if(doesTableExist(db, habitName)) {
             String query = "SELECT COUNT(*) FROM " + habitName + "WHERE isDone = 1";
             Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1", null);
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
+    public int countMonthDoneDays(String habitName, Date startDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String sD = sdf.format(startDate);
+        if(doesTableExist(db, habitName)) {
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " + "AND id >= ?", new String[] {sD});
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
+    public int countWeekDoneDays(String habitName, Date startDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String sD = sdf.format(startDate);
+        if(doesTableExist(db, habitName)) {
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " + "AND id >= ?", new String[] {sD});
             cursor.moveToFirst();
             return cursor.getInt(0);
         }

@@ -61,7 +61,7 @@
         tools:progress="65" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="9dp"
@@ -100,6 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calendarView3" />
 
     <TextView
+        android:id="@+id/text_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="9dp"
