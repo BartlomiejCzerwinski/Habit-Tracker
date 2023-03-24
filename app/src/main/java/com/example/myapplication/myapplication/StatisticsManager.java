@@ -8,6 +8,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -77,9 +78,9 @@ public class StatisticsManager {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                if (spinner.getSelectedItem().toString() == "All Habits") {
-                   // actions for one habit
+
                }
-               else {// tutaj skonczylem
+               else {
                     String habitName = spinner.getSelectedItem().toString();
                     DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
                     String sd = dataBaseHelper.getHabitStartDate(habitName);
@@ -91,14 +92,25 @@ public class StatisticsManager {
                            Date now = sdf.parse(localDate);
                            long diffInDays = (now.getTime() - startDate.getTime())/ (24 * 60 * 60 * 1000);
                            diffInDays += 1;
-                           System.out.println("minelo:"+ diffInDays);
-                           dataBaseHelper.countDoneDays(habitName);
+                           ProgressBar progressBar = (ProgressBar) binding.getRoot().findViewById(R.id.progressBar3);
+                           int progressValue = (int)(((float)dataBaseHelper.countDoneDays(habitName)/(float)diffInDays)*100);
+                           progressBar.setProgress(progressValue);
+                           TextView textView = (TextView) binding.getRoot().findViewById(R.id.text_total);
+                           textView.setText(dataBaseHelper.countDoneDays(habitName) + "/" + diffInDays);
                        }
                    } catch (ParseException e) {
                        e.printStackTrace();
                    }
 
                }
+            }
+
+            public void setTotalDoneProgressBar() {
+
+            }
+
+            public void setTotalDoneText() {
+
             }
 
             @Override
