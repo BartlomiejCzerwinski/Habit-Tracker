@@ -128,6 +128,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public int countDoneDaysFromTimePeriod(String habitName, String startDate, String endDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        if(doesTableExist(db, habitName)) {
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " +
+                    "AND id >= ? AND id <= ?", new String[]{endDate, startDate});
+            cursor.moveToFirst();
+            System.out.println("POLICZONO: " + cursor.getInt(0));
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
     public int countWeekDoneDays(String habitName, Date startDate) {
         SQLiteDatabase db = this.getReadableDatabase();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

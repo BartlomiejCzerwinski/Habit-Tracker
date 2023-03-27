@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="11dp"
+        android:id="@+id/textView_last7Days"
 
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="11dp"
+        android:id="@+id/textView_last30Days"
 
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,6 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
+        android:id="@+id/textView_total"
 
         android:textSize="11dp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"

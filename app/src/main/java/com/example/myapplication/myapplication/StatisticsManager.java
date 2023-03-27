@@ -42,12 +42,9 @@ public class StatisticsManager {
         this.spinner = (Spinner) binding.getRoot().findViewById(R.id.habitsSpinner);
         this.calendarView = (CalendarView) binding.getRoot().findViewById(R.id.calendarView3);
 
-        long dateInMillis = 1667251200000L;  // February 29, 2022
-        int color = Color.RED;
-
-        setCalendarCellColorForDate(calendarView, dateInMillis, color);
         setHabitsSpinner();
         setSelectDateListener();
+        setProgressBarsNames();
     }
 
     public void setSelectDateListener() {
@@ -61,27 +58,21 @@ public class StatisticsManager {
     }
 
     public String getSelectedDateFromCalendar() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         return dateFormat.format(calendarToCheckSelectedDate.getTime());
     }
 
+    public String getDateXdaysBeforeSelectedDate(String selectedDate, int numberOfDays) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
 
-    public static void setCalendarCellColorForDate(CalendarView calendarView, long dateInMillis, int color) {
-        calendarView.setDate(dateInMillis);
-        ViewGroup dayPickerView = (ViewGroup) calendarView.getChildAt(0);
-        ViewTreeObserver vto = dayPickerView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View dayView = dayPickerView.getChildAt((int) (calendarView.getDate() - 1));
-                if (dayView instanceof TextView) {
-                    TextView dayTextView = (TextView) dayView;
-                    dayTextView.setTextColor(color);
-                }
-            }
-        });
+        Date date = dateFormat.parse(selectedDate);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, -numberOfDays);
+
+        return dateFormat.format(calendar.getTime());
     }
-
 
     public void setHabitsSpinner() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
@@ -136,7 +127,6 @@ public class StatisticsManager {
                 progressBar.setProgress(progressValue);
                 setTotalDoneText(dataBaseHelper, habitName, diffInDays);
                 setMonthDoneProgressBar(habitName);
-                System.out.println("first week: " +getFirstDayOfCurrentWeek());
                 System.out.println("SELECTED DATE:" + getSelectedDateFromCalendar());
             }
         } catch (ParseException e) {
@@ -144,38 +134,46 @@ public class StatisticsManager {
         }
     }
 
+    public void setProgressBarsNames() {
+        TextView textViewLast7Days = (TextView) binding.getRoot().findViewById(R.id.textView_last7Days);
+        TextView textViewLast30Days = (TextView) binding.getRoot().findViewById(R.id.textView_last30Days);
+        TextView textViewTotal = (TextView) binding.getRoot().findViewById(R.id.textView_total);
+        textViewLast7Days.setText("Last 7 days");
+        textViewLast30Days.setText("Last 30 days");
+        textViewTotal.setText("Total");
+
+    }
+
     public void setTotalDoneText(DataBaseHelper dataBaseHelper, String habitName, long diffInDays) {
         TextView textView = (TextView) binding.getRoot().findViewById(R.id.text_total);
         textView.setText(dataBaseHelper.countDoneDays(habitName) + "/" + diffInDays);
     }
 
-    public void setMonthDoneProgressBar(String habitName) throws ParseException {
-        Date firstDayOfMonth = getFirstDayOfCurrentMonth();
-        Date today = getTodayDate();
-        long diffInDays = (today.getTime() - firstDayOfMonth.getTime())/ (24 * 60 * 60 * 1000);
-        diffInDays += 1;
+    public void setMonthDoneProgressBar(String habitName) throws ParseException {//zamienic na ostatnie 30 dni
+        String startDate = getSelectedDateFromCalendar();
+        String endDate = getDateXdaysBeforeSelectedDate(startDate, 29);
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
         ProgressBar progressBar = (ProgressBar) binding.getRoot().findViewById(R.id.progressBar2);
-        int monthDoneDays = dataBaseHelper.countMonthDoneDays(habitName, firstDayOfMonth);
-        int progressValue = (int)((monthDoneDays/(float)diffInDays)*100);
-        progressBar.setProgress(progressValue);
-        setMonthDoneText(monthDoneDays, diffInDays);
-        setWeekDoneProgress(habitName);
 
+        int doneInLast30Days = dataBaseHelper.countDoneDaysFromTimePeriod(habitName, startDate, endDate);
+        int progressValue = (int)((doneInLast30Days/(float)30)*100);
+        progressBar.setProgress(progressValue);
+        setMonthDoneText(doneInLast30Days, 30);
+        setWeekDoneProgress(habitName);
     }
 
-    public void setWeekDoneProgress(String habitName) throws ParseException {
-        Date firstDayOfWeek = getFirstDayOfCurrentWeek();
-        Date today = getTodayDate();
-        long diffInDays = (today.getTime() - firstDayOfWeek.getTime())/ (24 * 60 * 60 * 1000);
-        diffInDays += 1;
+    public void setWeekDoneProgress(String habitName) throws ParseException {//zmienic na ostatnie 7 dni
+        String startDate = getSelectedDateFromCalendar();
+        String endDate = getDateXdaysBeforeSelectedDate(startDate, 6);
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
         ProgressBar progressBar = (ProgressBar) binding.getRoot().findViewById(R.id.progressBar);
-        int weekDoneDays = dataBaseHelper.countWeekDoneDays(habitName, firstDayOfWeek);
-        int progressValue = (int)(((float)weekDoneDays/(float)diffInDays)*100);
-        System.out.println("PROGRESS VALUE"+ progressValue);
+
+        int doneInLast7Days = dataBaseHelper.countDoneDaysFromTimePeriod(habitName, startDate, endDate);
+        int progressValue = (int)((doneInLast7Days/(float)30)*100);
         progressBar.setProgress(progressValue);
-        setWeekDoneText(weekDoneDays, diffInDays);
+        setWeekDoneText(doneInLast7Days, 7);
     }
 
     public void setMonthDoneText(int monthDoneDays, long diffInDays) {
@@ -198,29 +196,6 @@ public class StatisticsManager {
         }
         Date now = sdf.parse(localDate);
         return now;
-    }
-
-    public Date getFirstDayOfCurrentMonth() {
-        LocalDate today = null;
-        LocalDate firstDayOfMonth = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            today = LocalDate.now();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            firstDayOfMonth = today.with(TemporalAdjusters.firstDayOfMonth());
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Date date = Date.from(firstDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            return Date.from(firstDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        }
-        return null;
-    }
-
-    public Date getFirstDayOfCurrentWeek() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        Date firstDayOfWeek = calendar.getTime();
-        return firstDayOfWeek;
     }
 
 }

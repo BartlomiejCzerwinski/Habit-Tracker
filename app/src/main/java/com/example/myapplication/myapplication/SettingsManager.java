@@ -54,7 +54,7 @@ public class SettingsManager {
     }
 
     public void setActualUserNameInNavigation(String name) {
-        textViewForUsername.setText(name);
+        textViewForUsername.setText("Hello, " + name);
     }
 
     public void getNewUserName() {
