@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        SettingsManager settingsManager = new SettingsManager(binding, getActivity().findViewById(R.id.user_name_text));
+        SettingsManager settingsManager = new SettingsManager(binding, getActivity().findViewById(R.id.user_name_text), getContext());
 
         return root;
     }
@@ -43,4 +43,5 @@ public class SettingsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

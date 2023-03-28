@@ -1,5 +1,6 @@
 package com.example.myapplication.myapplication;
 
+import android.content.Context;
 import android.os.Binder;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -28,6 +30,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsManager {
 
@@ -36,12 +40,17 @@ public class SettingsManager {
     private FragmentSettingsBinding binding;
     private ActivityMainBinding mainBinding;
     private TextView textViewForUsername;
+    private Spinner spinner;
+    private Context context;
 
-    public SettingsManager(FragmentSettingsBinding binding, TextView textView) {
+    public SettingsManager(FragmentSettingsBinding binding, TextView textView,  Context context) {
         this.binding = binding;
         this.textViewForUsername = textView;
+        this.context = context;
+        this.spinner = (Spinner) binding.getRoot().findViewById(R.id.colourSpinner);
         setActualUserNameInEditTextField();
         getNewUserName();
+        setColourListSpinner();
     }
 
     public SettingsManager(ActivityMainBinding binding) {
@@ -116,5 +125,23 @@ public class SettingsManager {
         }
 
         return stringBuilder.toString();
+    }
+
+    public void colourSpinnerController() {
+
+    }
+
+    public void setColourListSpinner() {
+        List<String> habitsNamesList = new ArrayList<String>();
+        habitsNamesList.add("Yellow");
+        habitsNamesList.add("Red");
+        habitsNamesList.add("Blue");
+        habitsNamesList.add("Green");
+        habitsNamesList.add("Pink");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, habitsNamesList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(habitsNamesList.size()-1);
+        System.out.println("setHabitsSpinner Selected item: " + spinner.getSelectedItem().toString());
     }
 }
