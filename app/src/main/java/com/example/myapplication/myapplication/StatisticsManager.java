@@ -52,7 +52,11 @@ public class StatisticsManager {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 calendarToCheckSelectedDate.set(year, month, dayOfMonth);
-
+                System.out.println("a");
+                String habitName = getSelectedItemFromSpinner();
+                if (habitName != "--Select Habit--") {
+                    setTotalDoneProgressBar(habitName);
+                }
             }
         });
     }
@@ -107,6 +111,11 @@ public class StatisticsManager {
 
         });
     }
+
+    public String getSelectedItemFromSpinner() {
+        Spinner spinner = (Spinner) binding.getRoot().findViewById(R.id.habitsSpinner);
+        return spinner.getSelectedItem().toString();
+    }
     public DataBaseHelper getDataBaseHelper() {
         return new DataBaseHelper(context);
     }
@@ -149,7 +158,7 @@ public class StatisticsManager {
         textView.setText(dataBaseHelper.countDoneDays(habitName) + "/" + diffInDays);
     }
 
-    public void setMonthDoneProgressBar(String habitName) throws ParseException {//zamienic na ostatnie 30 dni
+    public void setMonthDoneProgressBar(String habitName) throws ParseException {
         String startDate = getSelectedDateFromCalendar();
         String endDate = getDateXdaysBeforeSelectedDate(startDate, 29);
 
@@ -163,7 +172,7 @@ public class StatisticsManager {
         setWeekDoneProgress(habitName);
     }
 
-    public void setWeekDoneProgress(String habitName) throws ParseException {//zmienic na ostatnie 7 dni
+    public void setWeekDoneProgress(String habitName) throws ParseException {
         String startDate = getSelectedDateFromCalendar();
         String endDate = getDateXdaysBeforeSelectedDate(startDate, 6);
 
