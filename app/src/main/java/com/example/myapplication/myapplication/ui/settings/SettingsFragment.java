@@ -1,5 +1,9 @@
 package com.example.myapplication.myapplication.ui.settings;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +38,15 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         SettingsManager settingsManager = new SettingsManager(binding, getActivity().findViewById(R.id.user_name_text), getContext());
-
+        switchColourTheme(Color.parseColor("#00FF00"), Color.parseColor("#00FF00"), Color.parseColor("#00FF00"));
         return root;
+    }
+
+    public void switchColourTheme(int colorStart, int colorCenter, int colorEnd) {
+        int resourceId = R.drawable.side_nav_bar;
+        GradientDrawable drawable = (GradientDrawable) getContext().getDrawable(resourceId);
+        drawable.setColors(new int[]{colorStart, colorCenter, colorEnd});
+        drawable.invalidateSelf();
     }
 
     @Override

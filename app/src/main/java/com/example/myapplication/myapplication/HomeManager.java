@@ -2,6 +2,7 @@ package com.example.myapplication.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,11 +137,38 @@ public class HomeManager {
                 TextView textView = view.findViewById(R.id.habit_item_name);
                 textView.setText(habitList.get(position).getName());
 
+                deleteHabit(view, habitList, position);
+
                 return view;
             }
+
         };
 
             habitsListView.setAdapter(habitsArrayAdapter);
+    }
+
+    public void deleteHabit(View view, List<HabitModel> habitList, int position) {
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Delete habit");
+                builder.setMessage("Are you sure you want to delete this habit?");
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String habitName = habitList.get(position).getName();
+                        DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+                        dataBaseHelper.deleteHabitFromDb(habitName);
+                        System.out.println(habitName);
+                        habitList.remove(position);
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+                return true;
+            }
+        });
     }
 
 }

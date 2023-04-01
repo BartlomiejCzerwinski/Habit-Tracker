@@ -5,7 +5,6 @@ public class HabitModel {
     private String name;
     private int id;
     private boolean isDone;
-
     public HabitModel(String name) {
         int intdate = getIdFromDate();
         this.name = name;

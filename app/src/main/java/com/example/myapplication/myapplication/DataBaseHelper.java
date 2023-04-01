@@ -206,4 +206,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+
+    public void deleteHabitFromDb(String habitName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String dropTableQuery = "DROP TABLE " + habitName;
+        db.execSQL(dropTableQuery);
+        String deleteHabitFromQuery = "DELETE FROM HABITS_NAMES_TABLE WHERE HABIT_NAME = \"" + habitName + "\"";
+        db.execSQL(deleteHabitFromQuery);
+        //Cursor cursor = db.rawQuery("DELETE FROM HABITS_NAMES_TABLE WHERE HABIT_NAME = ?;", new String[] {habitName});
+    }
 }

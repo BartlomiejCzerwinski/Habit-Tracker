@@ -1,6 +1,8 @@
 package com.example.myapplication.myapplication;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Binder;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +38,7 @@ import java.util.List;
 public class SettingsManager {
 
     private String USER_NAME_FILE = "config_username.txt";
+    private String COLOUR_FILE = "config_selected_colour.txt";
 
     private FragmentSettingsBinding binding;
     private ActivityMainBinding mainBinding;
@@ -51,6 +54,8 @@ public class SettingsManager {
         setActualUserNameInEditTextField();
         getNewUserName();
         setColourListSpinner();
+        getColourFromFile();
+        //switchColourTheme(0,0,0);
     }
 
     public SettingsManager(ActivityMainBinding binding) {
@@ -141,7 +146,47 @@ public class SettingsManager {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, habitsNamesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setSelection(habitsNamesList.size()-1);
-        System.out.println("setHabitsSpinner Selected item: " + spinner.getSelectedItem().toString());
+        for (int i = 0; i < habitsNamesList.size(); i++) {
+            if (habitsNamesList.get(i).equals(getColourFromFile())) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
+    }
+
+    public String getColourFromFile() {
+        StringBuilder stringBuilder = new StringBuilder();
+        File file = null;
+        try {
+            if(mainBinding != null) {
+                file = new File(mainBinding.getRoot().getContext().getFilesDir(), COLOUR_FILE);
+            }
+            else
+            {
+                file = new File(binding.getRoot().getContext().getFilesDir(), COLOUR_FILE);
+            }
+            FileInputStream fis = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+
+            reader.close();
+            fis.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
+    }
+
+    public void switchColourTheme(int colorStart, int colorCenter, int colorEnd) {
+        GradientDrawable gradientDrawable = (GradientDrawable) binding.getRoot().getBackground();
+        int[] colors = {colorStart, colorCenter, colorEnd};
+        gradientDrawable.setColors(colors);
+        gradientDrawable.invalidateSelf();
     }
 }
