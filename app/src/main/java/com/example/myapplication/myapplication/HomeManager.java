@@ -89,7 +89,7 @@ public class HomeManager {
                     public void onClick(View view) {
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
                         dialog.cancel();
-                        //loadHabitsList();
+                        loadHabitsList();
                     }
                 });
             }
@@ -138,7 +138,6 @@ public class HomeManager {
                 textView.setText(habitList.get(position).getName());
 
                 deleteHabit(view, habitList, position);
-
                 return view;
             }
 
@@ -162,6 +161,7 @@ public class HomeManager {
                         dataBaseHelper.deleteHabitFromDb(habitName);
                         System.out.println(habitName);
                         habitList.remove(position);
+                        loadHabitsList();
                     }
                 });
                 builder.setNegativeButton("Cancel", null);

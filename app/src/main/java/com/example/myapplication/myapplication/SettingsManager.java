@@ -53,9 +53,6 @@ public class SettingsManager {
         this.spinner = (Spinner) binding.getRoot().findViewById(R.id.colourSpinner);
         setActualUserNameInEditTextField();
         getNewUserName();
-        setColourListSpinner();
-        getColourFromFile();
-        //switchColourTheme(0,0,0);
     }
 
     public SettingsManager(ActivityMainBinding binding) {
@@ -132,61 +129,6 @@ public class SettingsManager {
         return stringBuilder.toString();
     }
 
-    public void colourSpinnerController() {
 
-    }
 
-    public void setColourListSpinner() {
-        List<String> habitsNamesList = new ArrayList<String>();
-        habitsNamesList.add("Yellow");
-        habitsNamesList.add("Red");
-        habitsNamesList.add("Blue");
-        habitsNamesList.add("Green");
-        habitsNamesList.add("Pink");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, habitsNamesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        for (int i = 0; i < habitsNamesList.size(); i++) {
-            if (habitsNamesList.get(i).equals(getColourFromFile())) {
-                spinner.setSelection(i);
-                break;
-            }
-        }
-    }
-
-    public String getColourFromFile() {
-        StringBuilder stringBuilder = new StringBuilder();
-        File file = null;
-        try {
-            if(mainBinding != null) {
-                file = new File(mainBinding.getRoot().getContext().getFilesDir(), COLOUR_FILE);
-            }
-            else
-            {
-                file = new File(binding.getRoot().getContext().getFilesDir(), COLOUR_FILE);
-            }
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            reader.close();
-            fis.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(stringBuilder.toString());
-        return stringBuilder.toString();
-    }
-
-    public void switchColourTheme(int colorStart, int colorCenter, int colorEnd) {
-        GradientDrawable gradientDrawable = (GradientDrawable) binding.getRoot().getBackground();
-        int[] colors = {colorStart, colorCenter, colorEnd};
-        gradientDrawable.setColors(colors);
-        gradientDrawable.invalidateSelf();
-    }
 }
