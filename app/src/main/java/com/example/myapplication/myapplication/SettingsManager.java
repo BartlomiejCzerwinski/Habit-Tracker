@@ -50,7 +50,6 @@ public class SettingsManager {
         this.binding = binding;
         this.textViewForUsername = textView;
         this.context = context;
-        this.spinner = (Spinner) binding.getRoot().findViewById(R.id.colourSpinner);
         setActualUserNameInEditTextField();
         getNewUserName();
     }

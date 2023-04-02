@@ -180,7 +180,7 @@ public class StatisticsManager {
         ProgressBar progressBar = (ProgressBar) binding.getRoot().findViewById(R.id.progressBar);
 
         int doneInLast7Days = dataBaseHelper.countDoneDaysFromTimePeriod(habitName, startDate, endDate);
-        int progressValue = (int)((doneInLast7Days/(float)30)*100);
+        int progressValue = (int)((doneInLast7Days/(float)7)*100);
         progressBar.setProgress(progressValue);
         setWeekDoneText(doneInLast7Days, 7);
     }
