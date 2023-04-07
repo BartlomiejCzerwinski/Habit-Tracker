@@ -3,7 +3,7 @@ Habit tracker is an application that helps user form desired habits. It generate
 
 ## Adding new habits
 Habits can be simply added by clicking (+) icon on the right down corner of the screen.
-<img src="[https://your-image-url.type](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg)" width="315" height="612">
+<img src="https://your-image-url.type](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg)" width="315" height="612">
 ![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg =315x612)
 ![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg =315x612)
 
