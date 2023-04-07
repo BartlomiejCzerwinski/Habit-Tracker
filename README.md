@@ -4,22 +4,23 @@ Habit tracker is an application that helps user form desired habits. It generate
 ## Adding new habits
 Habits can be simply added by clicking (+) icon on the right down corner of the screen.
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg" width="315" height="612">
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg" width="315" height="612">
 
 ## Deleting habits
 Habits can also be easily deleted by long clicking an item from the list.
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/delete.jpg)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/delete.jpg" width="315" height="612">
 
 ## Statistics
 Statistics are generated based on data from database. They are generated for the last 7 days, 30 days (depending on selected date) and for total history.
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/statistics.png)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/statistics.jpg" width="315" height="612">
+
 ## Settings 
 In the settings section user is able to set his name. The name will be shown in greeting on navigation bar.
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/settings.jpg)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/settings.jpg" width="315" height="612">
 
-![** screenshot **](https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/navigation_bar.jpg)
+<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/navigation_bar.jpg" width="315" height="612">
