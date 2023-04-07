@@ -22,6 +22,7 @@ Statistics are generated based on data from database. They are generated for the
 ## Settings 
 In the settings section user is able to set his name. The name will be shown in greeting on navigation bar.
 
-<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/settings.jpg" width="315" height="612">
-
-<img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/navigation_bar.jpg" width="315" height="612">
+<p float="left">
+  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/settings.jpg" width="315" height="612" style="margin-right: 20px;"/>
+  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/navigation_bar.jpg" width="315" height="612" />
+</p>
