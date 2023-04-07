@@ -4,14 +4,10 @@ Habit tracker is an application that helps user form desired habits. It generate
 ## Adding new habits
 Habits can be simply added by clicking (+) icon on the right down corner of the screen.
 
-<div style="display: flex;">
-  <div style="flex-basis: 50%;">
-    <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg" width="315" height="612">
-  </div>
-  <div style="flex-basis: 50%;">
-    <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg" width="315" height="612">
-  </div>
-</div>
+<p float="left">
+  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg" width="315" height="612" />
+  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg" width="315" height="612" />
+</p>
 
 ## Deleting habits
 Habits can also be easily deleted by long clicking an item from the list.
