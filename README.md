@@ -5,7 +5,7 @@ Habit tracker is an application that helps user form desired habits. It generate
 Habits can be simply added by clicking (+) icon on the right down corner of the screen.
 
 <p float="left">
-  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg" width="315" height="612" />
+  <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/home.jpg" width="315" height="612" style="margin-right: 20px;"/>
   <img src="https://github.com/BartlomiejCzerwinski/Habit-Tracker/blob/main/screenshots/add_new.jpg" width="315" height="612" />
 </p>
 
