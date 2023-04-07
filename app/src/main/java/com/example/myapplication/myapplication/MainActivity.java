@@ -3,9 +3,7 @@ package com.example.myapplication.myapplication;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //for manager
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
         dataBaseHelper.createHabitsTables();
-        //*************************
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -44,15 +42,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        //for manager
-        //Setting user name from file
         NavigationView navigationView1 = findViewById(R.id.nav_view);
         View headerView = navigationView1.getHeaderView(0);
         TextView textView = headerView.findViewById(R.id.user_name_text);
         SettingsManager settingsManager = new SettingsManager(binding);
         String userName = settingsManager.getUserNameFromFile();
         textView.setText("Hello, " + userName);
-        //********************************************************************
     }
 
     @Override

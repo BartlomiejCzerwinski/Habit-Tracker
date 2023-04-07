@@ -31,18 +31,18 @@
         app:layout_constraintVertical_bias="0.559" />
 
     <TextView
+        android:id="@+id/textView_last7Days"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="11dp"
-        android:id="@+id/textView_last7Days"
 
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.985"
-        tools:text="This week"></TextView>
+        tools:text="Last 7 days"></TextView>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -73,18 +73,18 @@
         tools:text="100/120"></TextView>
 
     <TextView
+        android:id="@+id/textView_last30Days"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="11dp"
-        android:id="@+id/textView_last30Days"
 
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.985"
-        tools:text="This month"></TextView>
+        tools:text="Last 30 days"></TextView>
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -113,15 +113,15 @@
         tools:text="100/120"></TextView>
 
     <TextView
+        android:id="@+id/textView_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:id="@+id/textView_total"
 
         android:textSize="11dp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.873"
+        app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.985"

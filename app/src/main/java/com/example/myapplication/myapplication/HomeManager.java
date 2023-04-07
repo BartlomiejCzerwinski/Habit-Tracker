@@ -1,6 +1,5 @@
 package com.example.myapplication.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -13,9 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,7 +48,6 @@ public class HomeManager {
 
     public void createNewHabbit() {
         FloatingActionButton floatingActionButton = rootView.findViewById(R.id.add_habit_button);
-        System.out.println("My button: "+ floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,8 +55,8 @@ public class HomeManager {
                 final View newHabitPopupView = layoutInflater.inflate(R.layout.popup, null);
                 habitName = (EditText) newHabitPopupView.findViewById(R.id.newhabitpopup_habit_name);
 
-                addHabit = (Button) newHabitPopupView.findViewById(R.id.add_habit_button);// a.d. 1
-                cencel = (Button) newHabitPopupView.findViewById(R.id.cencel_button);     // no coś takiego to by było
+                addHabit = (Button) newHabitPopupView.findViewById(R.id.add_habit_button);
+                cencel = (Button) newHabitPopupView.findViewById(R.id.cencel_button);
                 dialogBuilder.setView(newHabitPopupView);
                 dialog = dialogBuilder.create();
                 dialog.show();
@@ -76,7 +72,7 @@ public class HomeManager {
 
                         }
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-                        boolean success = dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
+                        dataBaseHelper.addHabitToHabitsNamesTable(newHabitName);
                         dataBaseHelper.createHabitsTables();
                         dialog.cancel();
                         loadHabitsList();
@@ -124,11 +120,9 @@ public class HomeManager {
                         habitList.get(position).setSelected(isChecked);
                         String habitName = habitList.get(position).getName();
                         if (isChecked) {
-                            System.out.println("Habit checked: " + habitList.get(position).getName());
                             dataBaseHelper.addHabitDailyStatus(habitName, true);
                         }
                         else {
-                            System.out.println("Habit unchecked: " + habitList.get(position).getName());
                             dataBaseHelper.addHabitDailyStatus(habitName, false);
                         }
                     }

@@ -38,18 +38,15 @@ import java.util.List;
 public class SettingsManager {
 
     private String USER_NAME_FILE = "config_username.txt";
-    private String COLOUR_FILE = "config_selected_colour.txt";
 
     private FragmentSettingsBinding binding;
     private ActivityMainBinding mainBinding;
     private TextView textViewForUsername;
-    private Spinner spinner;
-    private Context context;
 
     public SettingsManager(FragmentSettingsBinding binding, TextView textView,  Context context) {
         this.binding = binding;
         this.textViewForUsername = textView;
-        this.context = context;
+
         setActualUserNameInEditTextField();
         getNewUserName();
     }

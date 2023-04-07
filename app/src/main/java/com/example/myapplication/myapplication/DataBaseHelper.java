@@ -6,11 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.Nullable;
-
-import com.example.myapplication.myapplication.HabitModel;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +23,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Date date = new Date();
         String createTableStatement = "CREATE TABLE " + HABITS_NAMES_TABLE + " ("+ HABIT_NAME +" TEXT UNIQUE, Start_date DATE)";
         db.execSQL(createTableStatement);
     }
@@ -92,7 +87,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         for(String habit_name : HABITS_LIST)
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            if(!doesTableExist(db, habit_name)) {
+            if(!isTableExist(db, habit_name)) {
                 habit_name = convertHabitNameIntoDb(habit_name);
                 String createHabitTable = "CREATE TABLE " + habit_name + " (id  INTEGER, isDone INTEGER DEFAULT 0)";
                 db.execSQL(createHabitTable);
@@ -100,7 +95,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean doesTableExist(SQLiteDatabase db, String tableName) {
+    public boolean isTableExist(SQLiteDatabase db, String tableName) {
         tableName = convertHabitNameIntoDb(tableName);
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", new String[] {tableName});
         boolean exists = (cursor != null) && (cursor.getCount() > 0);
@@ -113,22 +108,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int countDoneDays(String habitName) {
         habitName = convertHabitNameIntoDb(habitName);
         SQLiteDatabase db = this.getReadableDatabase();
-        if(doesTableExist(db, habitName)) {
-            String query = "SELECT COUNT(*) FROM " + habitName + "WHERE isDone = 1";
+        if(isTableExist(db, habitName)) {
             Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1", null);
-            cursor.moveToFirst();
-            return cursor.getInt(0);
-        }
-        return 0;
-    }
-
-    public int countMonthDoneDays(String habitName, Date startDate) {
-        habitName = convertHabitNameIntoDb(habitName);
-        SQLiteDatabase db = this.getReadableDatabase();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String sD = sdf.format(startDate);
-        if(doesTableExist(db, habitName)) {
-            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " + "AND id >= ?", new String[] {sD});
             cursor.moveToFirst();
             return cursor.getInt(0);
         }
@@ -138,24 +119,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int countDoneDaysFromTimePeriod(String habitName, String startDate, String endDate) {
         habitName = convertHabitNameIntoDb(habitName);
         SQLiteDatabase db = this.getReadableDatabase();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        if(doesTableExist(db, habitName)) {
+        if(isTableExist(db, habitName)) {
             Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " +
                     "AND id >= ? AND id <= ?", new String[]{endDate, startDate});
-            cursor.moveToFirst();
-            System.out.println("POLICZONO: " + cursor.getInt(0));
-            return cursor.getInt(0);
-        }
-        return 0;
-    }
-
-    public int countWeekDoneDays(String habitName, Date startDate) {
-        habitName = convertHabitNameIntoDb(habitName);
-        SQLiteDatabase db = this.getReadableDatabase();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String sD = sdf.format(startDate);
-        if(doesTableExist(db, habitName)) {
-            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + habitName + " WHERE isDone = 1 " + "AND id >= ?", new String[] {sD});
             cursor.moveToFirst();
             return cursor.getInt(0);
         }
@@ -228,7 +194,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(dropTableQuery);
         String deleteHabitFromQuery = "DELETE FROM HABITS_NAMES_TABLE WHERE HABIT_NAME = \"" + habitName + "\"";
         db.execSQL(deleteHabitFromQuery);
-        //Cursor cursor = db.rawQuery("DELETE FROM HABITS_NAMES_TABLE WHERE HABIT_NAME = ?;", new String[] {habitName});
     }
 
     public String convertHabitNameIntoDb(String habitName) {

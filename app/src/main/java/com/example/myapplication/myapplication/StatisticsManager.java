@@ -1,11 +1,7 @@
 package com.example.myapplication.myapplication;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
@@ -13,16 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.myapplication.myapplication.databinding.FragmentSettingsBinding;
 import com.example.myapplication.myapplication.databinding.FragmentStatisticsBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +43,6 @@ public class StatisticsManager {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 calendarToCheckSelectedDate.set(year, month, dayOfMonth);
-                System.out.println("a");
                 String habitName = getSelectedItemFromSpinner();
                 if (habitName != "--Select Habit--") {
                     setTotalDoneProgressBar(habitName);
@@ -136,7 +126,6 @@ public class StatisticsManager {
                 progressBar.setProgress(progressValue);
                 setTotalDoneText(dataBaseHelper, habitName, diffInDays);
                 setMonthDoneProgressBar(habitName);
-                System.out.println("SELECTED DATE:" + getSelectedDateFromCalendar());
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -195,16 +184,6 @@ public class StatisticsManager {
         TextView textView = (TextView) binding.getRoot().findViewById(R.id.text_week);
         textView.setText(weekDoneDays + "/" + diffInDays);
 
-    }
-
-    public Date getTodayDate() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String localDate = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            localDate = LocalDate.now().toString();
-        }
-        Date now = sdf.parse(localDate);
-        return now;
     }
 
 }
